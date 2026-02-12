@@ -12,22 +12,26 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
-    AuthCredentials:
+    ProfileResponse:
       type: object
-      required: [email, password]
       properties:
+        userId:
+          type: integer
         email:
           type: string
-          format: email
-        password:
-          type: string
-          format: password
-    AuthSignup:
-      $ref: '#/components/schemas/AuthCredentials'
-    TokenResponse:
+        issuedAt:
+          type: integer
+        expiresAt:
+          type: integer
+    RailsHealth:
       type: object
       properties:
-        token:
+        status:
+          type: string
+        time:
+          type: string
+          format: date-time
+        source:
           type: string
 paths:
   /health:
@@ -36,39 +40,29 @@ paths:
       responses:
         '200':
           description: OK
-  /auth/signup:
-    post:
-      summary: Registro de usuario
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AuthSignup'
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TokenResponse'
-        '422':
-          description: Validation error
-  /auth/login:
-    post:
-      summary: Inicio de sesión
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AuthCredentials'
+  /protected/profile:
+    get:
+      summary: Perfil basado en JWT
+      security:
+      - bearerAuth: []
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TokenResponse'
+                $ref: '#/components/schemas/ProfileResponse'
         '401':
           description: Unauthorized
+  /rails/health:
+    get:
+      summary: Salud del servicio Rails
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RailsHealth'
+        '502':
+          description: Bad Gateway

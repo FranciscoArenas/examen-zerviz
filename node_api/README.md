@@ -11,8 +11,8 @@ Proyecto base para APIs REST con autenticación JWT, Sequelize y PostgreSQL.
 
 ## Endpoints
 - `GET /health`
-- `POST /auth/signup`
-- `POST /auth/login`
+- `GET /protected/profile`
+- `GET /rails/health`
 
 ## Variables de entorno
 Copiar el archivo `.env.example` a `.env`.
@@ -23,7 +23,7 @@ Copiar el archivo `.env.example` a `.env`.
 
 ## Seguridad
 - Uso de `JWT_SECRET`
-- Hashing de contraseñas con `bcryptjs`
+- JWT validado contra la firma emitida por Rails
 
 ## Notas
 Este es un esqueleto inicial para entrevistas: se pueden añadir OAuth, rate limiting y scopes.
