@@ -1,0 +1,61 @@
+version: "3.9"
+
+services:
+  rails_api:
+    build: ./rails_api
+    env_file:
+      - ./rails_api/.env
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@rails_db:5432/rails_api_development
+      JWT_SECRET: ${JWT_SECRET:-change_me}
+      RAILS_ENV: development
+    ports:
+      - "3000:3000"
+    depends_on:
+      - rails_db
+    networks:
+      - internal
+
+  rails_db:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: rails_api_development
+    volumes:
+      - rails_pg_data:/var/lib/postgresql/data
+    networks:
+      - internal
+
+  node_api:
+    build: ./node_api
+    env_file:
+      - ./node_api/.env
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@node_db:5432/node_api_development
+      JWT_SECRET: ${JWT_SECRET:-change_me}
+      RAILS_API_URL: http://rails_api:3000
+    ports:
+      - "3001:3001"
+    depends_on:
+      - node_db
+      - rails_api
+    networks:
+      - internal
+
+  node_db:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: node_api_development
+    volumes:
+      - node_pg_data:/var/lib/postgresql/data
+    networks:
+      - internal
+
+networks:
+  internal:
+    driver: bridge
+
+volumes:
+  rails_pg_data:
+  node_pg_data:
