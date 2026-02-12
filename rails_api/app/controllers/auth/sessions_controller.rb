@@ -3,13 +3,17 @@ module Auth
     skip_before_action :authenticate_request
 
     def create
-      user = User.find_by(email: params[:email])
+      user = user_repository.find_by_email(params[:email])
       if user&.authenticate(params[:password])
-        token = JwtService.encode({ user_id: user.id })
-        render json: { token: token }
+        tokens = TokenService.issue_for(user)
+        render json: tokens
       else
         render json: { error: "Invalid credentials" }, status: :unauthorized
       end
+    end
+
+    def user_repository
+      @user_repository ||= UserRepository.new
     end
   end
 end

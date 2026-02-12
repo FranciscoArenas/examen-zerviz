@@ -3,10 +3,10 @@ module Auth
     skip_before_action :authenticate_request
 
     def create
-      user = User.new(user_params)
-      if user.save
-        token = JwtService.encode({ user_id: user.id })
-        render json: { token: token }, status: :created
+      user = user_repository.create(user_params)
+      if user.persisted?
+        tokens = TokenService.issue_for(user)
+        render json: tokens, status: :created
       else
         render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
       end
@@ -16,6 +16,10 @@ module Auth
 
     def user_params
       params.permit(:email, :password, :password_confirmation)
+    end
+
+    def user_repository
+      @user_repository ||= UserRepository.new
     end
   end
 end

@@ -34,7 +34,19 @@ components:
     TokenResponse:
       type: object
       properties:
-        token:
+        access_token:
+          type: string
+        refresh_token:
+          type: string
+        token_type:
+          type: string
+        expires_in:
+          type: integer
+    RefreshRequest:
+      type: object
+      required: [refresh_token]
+      properties:
+        refresh_token:
           type: string
 paths:
   /health:
@@ -79,3 +91,35 @@ paths:
                 $ref: '#/components/schemas/TokenResponse'
         '401':
           description: Unauthorized
+  /auth/refresh:
+    post:
+      summary: Renovar token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '401':
+          description: Unauthorized
+  /auth/logout:
+    post:
+      summary: Revocar refresh token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshRequest'
+      responses:
+        '204':
+          description: No Content
+        '422':
+          description: Validation error

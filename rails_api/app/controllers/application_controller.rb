@@ -16,6 +16,7 @@ class ApplicationController < ActionController::API
   def public_endpoint?
     controller_name == "health" ||
       (controller_path == "auth/sessions" && action_name == "create") ||
-      (controller_path == "auth/registrations" && action_name == "create")
+      (controller_path == "auth/registrations" && action_name == "create") ||
+      (controller_path == "auth/tokens" && action_name.in?(["refresh", "revoke"]))
   end
 end

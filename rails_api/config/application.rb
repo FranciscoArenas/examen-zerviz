@@ -17,6 +17,7 @@ module RailsApi
     config.middleware.delete ActionDispatch::HostAuthorization
 
     config.autoload_paths << Rails.root.join("app/services")
+    config.autoload_paths << Rails.root.join("app/repositories")
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do

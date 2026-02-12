@@ -14,6 +14,8 @@ Proyecto base para APIs REST con autenticación JWT, ActiveRecord y PostgreSQL.
 - `GET /health`
 - `POST /auth/signup`
 - `POST /auth/login`
+- `POST /auth/refresh`
+- `POST /auth/logout`
 
 ## Variables de entorno
 Copiar el archivo `.env.example` a `.env`.
@@ -25,6 +27,7 @@ Copiar el archivo `.env.example` a `.env`.
 ## Seguridad
 - Uso de `JWT_SECRET`
 - Validación de credenciales con `bcrypt`
+- Refresh tokens con rotación
 
 ## Notas
 Este es un esqueleto inicial para entrevistas: se pueden añadir OAuth, rate limiting y scopes.

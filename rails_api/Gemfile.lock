@@ -236,6 +236,7 @@ DEPENDENCIES
   pg (~> 1.5)
   puma (~> 6.4)
   rack-cors (~> 2.0)
+  rackup (~> 2.1)
   rails (~> 7.1.0)
   rspec-rails (~> 6.1)
 
