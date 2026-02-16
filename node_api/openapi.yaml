@@ -57,6 +57,9 @@ paths:
   /rails/health:
     get:
       summary: Salud del servicio Rails
+  /saludo:
+    get:
+      summary: Saludo simple
       responses:
         '200':
           description: OK
@@ -66,3 +69,42 @@ paths:
                 $ref: '#/components/schemas/RailsHealth'
         '502':
           description: Bad Gateway
+                $ref: '#/components/schemas/RailsHealth'
+        '502':
+          description: Bad Gateway
+  /saludo:
+    get:
+      summary: Saludo simple
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+  /adios:
+    post:
+      summary: Despedida personalizada
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [nombre]
+              properties:
+                nombre:
+                  type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
