@@ -8,4 +8,6 @@ Rails.application.routes.draw do
     post "/refresh", to: "tokens#refresh"
     post "/logout", to: "tokens#revoke"
   end
+
+  post "/users", to: "users#create"
 end

@@ -12,6 +12,47 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
+    UserCreate:
+      type: object
+      required: [user]
+      properties:
+        user:
+          type: object
+          required: [email, password]
+          properties:
+            username:
+              type: string
+            email:
+              type: string
+              format: email
+            password:
+              type: string
+              format: password
+            first_name:
+              type: string
+            last_name:
+              type: string
+            role:
+              type: string
+            status:
+              type: string
+            bio:
+              type: string
+            company:
+              type: string
+            location:
+              type: string
+            phone_number:
+              type: string
+            website:
+              type: string
+              format: uri
+            github_handle:
+              type: string
+            two_factor_enabled:
+              type: boolean
+            auth_token:
+              type: string
     AuthCredentials:
       type: object
       required: [email, password]
@@ -121,5 +162,33 @@ paths:
       responses:
         '204':
           description: No Content
+        '422':
+          description: Validation error
+  /users:
+    post:
+      summary: Crear usuario (protegido con JWT)
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  email:
+                    type: string
+                    format: email
+        '401':
+          description: Unauthorized
         '422':
           description: Validation error
