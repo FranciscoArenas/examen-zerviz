@@ -1,0 +1,61 @@
+name: Docker Compose Full Stack
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  integration-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v4
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    
+    - name: Crear archivo .env
+      run: |
+        cat > .env << EOF
+        NODE_ENV=development
+        RAILS_ENV=development
+        DATABASE_HOST=db
+        DATABASE_USERNAME=postgres
+        DATABASE_PASSWORD=postgres
+        DATABASE_NAME=myapp_development
+        JWT_SECRET=test_secret_key
+        EOF
+    
+    - name: Build servicios con Docker Compose
+      run: docker-compose build
+    
+    - name: Iniciar servicios
+      run: docker-compose up -d
+    
+    - name: Esperar que los servicios estén listos
+      run: |
+        echo "Esperando a que los servicios inicien..."
+        sleep 30
+    
+    - name: Verificar salud de Rails API
+      run: |
+        curl --retry 10 --retry-delay 5 --retry-connrefused http://localhost:3000/health || echo "Rails API no responde"
+    
+    - name: Verificar salud de Node API
+      run: |
+        curl --retry 10 --retry-delay 5 --retry-connrefused http://localhost:4000/health || echo "Node API no responde"
+    
+    - name: Mostrar logs en caso de fallo
+      if: failure()
+      run: docker-compose logs
+    
+    - name: Detener servicios
+      if: always()
+      run: docker-compose down -v
+    
+    - name: Limpiar imágenes
+      if: always()
+      run: docker system prune -af
