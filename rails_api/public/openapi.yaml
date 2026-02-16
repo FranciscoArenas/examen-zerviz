@@ -89,6 +89,16 @@ components:
       properties:
         refresh_token:
           type: string
+    VerifyTokenRequest:
+      type: object
+      required: [user]
+      properties:
+        user:
+          type: object
+          required: [auth_token]
+          properties:
+            auth_token:
+              type: string
 paths:
   /health:
     get:
@@ -164,6 +174,29 @@ paths:
           description: No Content
         '422':
           description: Validation error
+  /auth/verify:
+    post:
+      summary: Verificar JWT
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyTokenRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  valid:
+                    type: boolean
+                  payload:
+                    type: object
+        '401':
+          description: Unauthorized
   /users:
     post:
       summary: Crear usuario (protegido con JWT)

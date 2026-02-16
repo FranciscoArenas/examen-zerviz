@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     post "/signup", to: "registrations#create"
     post "/refresh", to: "tokens#refresh"
     post "/logout", to: "tokens#revoke"
+    post "/verify", to: "tokens#verify"
   end
 
   post "/users", to: "users#create"
