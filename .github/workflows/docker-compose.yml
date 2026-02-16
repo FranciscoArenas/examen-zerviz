@@ -28,12 +28,17 @@ jobs:
         DATABASE_NAME=myapp_development
         JWT_SECRET=test_secret_key
         EOF
+
+    - name: Crear .env de servicios
+      run: |
+        cp node_api/.env.example node_api/.env
+        cp rails_api/.env.example rails_api/.env
     
     - name: Build servicios con Docker Compose
-      run: docker-compose build
+      run: docker compose build
     
     - name: Iniciar servicios
-      run: docker-compose up -d
+      run: docker compose up -d
     
     - name: Esperar que los servicios estén listos
       run: |
@@ -42,19 +47,19 @@ jobs:
     
     - name: Verificar salud de Rails API
       run: |
-        curl --retry 10 --retry-delay 5 --retry-connrefused http://localhost:3000/health || echo "Rails API no responde"
+        curl --retry 10 --retry-delay 5 --retry-connrefused http://localhost:3000/health
     
     - name: Verificar salud de Node API
       run: |
-        curl --retry 10 --retry-delay 5 --retry-connrefused http://localhost:4000/health || echo "Node API no responde"
+        curl --retry 10 --retry-delay 5 --retry-connrefused http://localhost:3001/health
     
     - name: Mostrar logs en caso de fallo
       if: failure()
-      run: docker-compose logs
+      run: docker compose logs
     
     - name: Detener servicios
       if: always()
-      run: docker-compose down -v
+      run: docker compose down -v
     
     - name: Limpiar imágenes
       if: always()
