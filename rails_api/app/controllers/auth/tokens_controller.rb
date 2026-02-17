@@ -18,5 +18,13 @@ module Auth
         render json: { error: "Invalid refresh token" }, status: :unprocessable_entity
       end
     end
+
+    def verify
+      token = params.dig(:user, :auth_token) || params[:auth_token]
+      payload = JwtService.decode(token)
+      render json: { valid: true, payload: payload }
+    rescue StandardError
+      render json: { valid: false, error: "Unauthorized" }, status: :unauthorized
+    end
   end
 end
