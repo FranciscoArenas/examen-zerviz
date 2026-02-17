@@ -52,6 +52,14 @@ services:
     networks:
       - internal
 
+  vue_frontend:
+    build: ./carpeta-vuejs
+    working_dir: /app
+    ports:
+      - "5173:5173"
+    networks:
+      - internal
+
 networks:
   internal:
     driver: bridge
