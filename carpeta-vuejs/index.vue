@@ -1,21 +1,20 @@
 <template>
-    <div class="min-h-screen flex items-center justify-center py-12 px-4" style="background-color: #D6D3D1;">
-        <div class="w-full items-center justify-center max-w-3xl mx-auto">
+    <div class="min-h-screen flex flex-col items-center justify-center py-12 px-4 bg-gradient-to-br from-slate-100 to-slate-200">
+        <div class="w-full items-center justify-center max-w-3xl mx-auto fade-in">
             <!-- Header -->
             <div class="text-center mb-16">
-                <h1 class="text-6xl font-light text-slate-900 mb-4 tracking-tight">API Endpoints</h1>
-                <p class="text-lg text-slate-600 font-light">Prueba tus endpoints de forma interactiva</p>
-                <div class="h-1 w-20 bg-gradient-to-r from-slate-300 to-slate-400 mx-auto mt-6"></div>
+                <h1 class="text-6xl font-extrabold text-emerald-700 mb-4 tracking-tight drop-shadow-lg">API Endpoints</h1>
+                <p class="text-lg text-slate-600 font-light mb-2">Prueba tus endpoints de forma interactiva</p>
+                <div class="h-1 w-24 bg-gradient-to-r from-emerald-300 to-blue-400 mx-auto mt-6 rounded-full"></div>
             </div>
             
-            <!-- GET Saludo Card -->
-            <div class="bg-white rounded-3xl p-10 mb-10 border-t-2 border-slate-300 transform hover:scale-102 transition-all duration-300" 
-                 style="box-shadow: rgba(0, 0, 0, 0.08) 0px 8px 32px, rgba(255, 255, 255, 0.6) 0px 1px 0px inset; user-select: auto;">
+              <!-- GET Saludo Card -->
+              <div class="bg-white/90 rounded-3xl p-10 mb-10 border-t-4 border-emerald-300 shadow-2xl transform hover:scale-105 transition-all duration-300">
                 <div class="flex items-center gap-4 mb-8 justify-center">
-                    <div class="w-14 h-14 bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-full flex items-center justify-center border border-emerald-200">
-                        <span class="text-emerald-700 font-light text-sm tracking-wide"></span>
+                    <div class="w-14 h-14 bg-gradient-to-br from-emerald-200 to-emerald-400 rounded-full flex items-center justify-center border border-emerald-300 shadow-md">
+                        <span class="text-emerald-700 font-bold text-2xl">👋</span>
                     </div>
-                    <h2 class="text-3xl font-bold text-gray-800"></h2>
+                    <h2 class="text-3xl font-bold text-emerald-700">Saludo</h2>
                 </div>
                 
                 <p class="text-slate-600 mb-8 leading-relaxed text-center font-light">
@@ -27,10 +26,10 @@
                         @click="callSaludo"
                         :disabled="loading.saludo"
                         :aria-label="loading.saludo ? 'Cargando saludo...' : 'Llamar endpoint de saludo'"
-                        class="bg-gradient-to-r from-emerald-600 to-emerald-700 
-                        hover:from-emerald-700 hover:to-emerald-800 disabled:from-slate-400 
-                        disabled:to-slate-500 text-white font-light py-3 px-8 rounded-full 
-                        transition duration-300 transform hover:scale-105 disabled:hover:scale-100 
+                        class="bg-gradient-to-r from-emerald-500 to-blue-400 
+                        hover:from-emerald-600 hover:to-blue-500 disabled:from-slate-400 
+                        disabled:to-slate-500 text-white font-semibold py-3 px-8 rounded-full 
+                        transition duration-300 transform hover:scale-110 disabled:hover:scale-100 
                         flex items-center justify-center gap-2 tracking-wide shadow-lg"
                     >
                         <span v-if="!loading.saludo" class="text-xl">→</span>
@@ -57,13 +56,13 @@
             </div>
 
             <!-- POST Adios Card -->
-            <div class="bg-white rounded-3xl p-10 mb-10 border-t-2 border-slate-300 transform hover:scale-102 transition-all duration-300"
+            <div class="bg-white/90 rounded-3xl p-10 mb-10 border-t-4 border-blue-300 shadow-2xl transform hover:scale-105 transition-all duration-300"
                  style="box-shadow: rgba(0, 0, 0, 0.08) 0px 8px 32px, rgba(255, 255, 255, 0.6) 0px 1px 0px inset; user-select: auto;">
                 <div class="flex items-center gap-4 mb-8 justify-center">
-                    <div class="w-14 h-14 bg-gradient-to-br from-blue-50 to-blue-100 rounded-full flex items-center justify-center border border-blue-200">
-                        <span class="text-blue-700 font-light text-sm tracking-wide"></span>
+                    <div class="w-14 h-14 bg-gradient-to-br from-blue-200 to-blue-400 rounded-full flex items-center justify-center border border-blue-300 shadow-md">
+                        <span class="text-blue-700 font-bold text-2xl">🚀</span>
                     </div>
-                    <h2 class="text-3xl font-bold text-gray-800"></h2>
+                    <h2 class="text-3xl font-bold text-blue-700">Adiós</h2>
                 </div>
                 
                 <p class="text-slate-600 mb-8 leading-relaxed text-center font-light">
@@ -135,7 +134,8 @@
         </div>
 
         <!-- Footer -->
-        <div class="mt-16 text-center text-gray-600 text-sm w-full max-w-2xl mx-auto">
+        <div class="mt-16 text-center text-gray-500 text-xs w-full max-w-2xl mx-auto opacity-80">
+            <span>Desarrollado con <span class="text-emerald-500">♥</span> y Vue + Tailwind CSS</span>
         </div>
     </div>
 </template>
@@ -222,26 +222,22 @@ export default {
 /* Smooth transitions for responses */
 .slide-enter-active,
 .slide-leave-active {
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(.4,0,.2,1);
 }
-
 .slide-enter-from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-10px) scale(0.98);
 }
-
 .slide-leave-to {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-10px) scale(0.98);
 }
-
 /* Animation for loading spinner */
 @keyframes spin {
     to {
         transform: rotate(360deg);
     }
 }
-
 .animate-spin {
     animation: spin 1s linear infinite;
 }
