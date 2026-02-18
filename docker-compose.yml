@@ -57,6 +57,9 @@ services:
     working_dir: /app
     ports:
       - "5173:5173"
+    volumes:
+      - ./carpeta-vuejs:/app
+      - /app/node_modules
     networks:
       - internal
 
